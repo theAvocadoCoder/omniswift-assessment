@@ -1,1 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Lato", "sans-serif";
+  --color-green: #46C35F;
+  --color-blue: #0D7590;
+  --color-gray-primary: #343434;
+  --color-gray-secondary: #4F4F4F; /* for the result tables */
+  --color-gray-tertiary: #333333; /* for some result text */
+  --color-gray-light: #ADB7BE; /* for the input labels */
+}
+
+@layer base {
+  main {
+    background-color: #F6F6F6;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 2.5rem;
+    padding: 2.5rem;
+
+    &>* {
+      width: 100%;
+    }
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #343434;
+  }
+
+  section {
+    padding: 2rem;
+    background-color: #FFFFFF;
+  }
+}
+
+@layer components {
+  .btn {
+    background-color: var(--color-green);
+    color: #FFFFFF;
+    padding: .75rem 1rem;
+    
+    &.rounded {
+      border-radius: .25rem;
+    }
+  }
+}
+
+@utility scrollbar {
+  &::-webkit-scrollbar {
+    width: 1.5rem;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #F8F8F8;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-green);
+    border-radius: 1rem;
+    border: .4375rem solid #F8F8F8;
+  }
+}
