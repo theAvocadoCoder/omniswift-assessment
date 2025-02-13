@@ -13,5 +13,12 @@ export default defineConfig({
     environment: "happy-dom",
     setupFiles: ["./src/tests/setup.ts"],
     include: ["./src/**/*.{test,spec}.{ts,tsx}"],
+  },
+  resolve: {
+    alias: {
+      "@app": "/src/app",
+      "@features": "/src/features",
+      "@tests": "/src/tests",
+    }
   }
 });
