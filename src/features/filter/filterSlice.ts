@@ -1,23 +1,23 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 
-interface FilterState {
-  age: string | null;
-  state: string | null;
-  level: string | null;
-  gender: string | null;
+export interface FilterState {
+  age: string;
+  state: string;
+  level: string;
+  gender: string;
 }
 
-interface FilterPayload {
+export interface FilterPayload {
   key: keyof FilterState;
-  value: string | null;
+  value: string;
 }
 
 const initialState: FilterState = {
-  age: null,
-  state: null,
-  level: null,
-  gender: null,
+  age: "",
+  state: "",
+  level: "",
+  gender: "",
 };
 
 export const filterSlice = createSlice({
@@ -32,6 +32,9 @@ export const filterSlice = createSlice({
 
 export const { setFilter } = filterSlice.actions;
 
-export const selectFilter = (state: RootState, option: keyof FilterState) => state.filter[option];
+export const selectActiveFilters = createSelector(
+  (state: RootState) => state.filter,
+  (filter: RootState["filter"]) => Object.entries(filter).filter(f => !!f[1])
+);
 
 export default filterSlice.reducer;
