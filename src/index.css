@@ -4,6 +4,7 @@
 @theme {
   --font-sans: "Lato", "sans-serif";
   --color-green: #46C35F;
+  --color-green-hover: #44B55A;
   --color-blue: #0D7590;
   --color-gray-primary: #343434;
   --color-gray-secondary: #4F4F4F; /* for the result tables */
@@ -44,9 +45,14 @@
     background-color: var(--color-green);
     color: #FFFFFF;
     padding: .75rem 1rem;
+    cursor: pointer;
     
     &.rounded {
       border-radius: .25rem;
+    }
+
+    &:hover {
+      background-color: var(--color-green-hover);
     }
   }
 }
