@@ -1,11 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
 import App from "../App";
+import { Provider } from "react-redux";
+import store from "@app/store";
 
 describe ("App component", () => {
 
   beforeEach(() => {
-    render(<App />);
+    render(<Provider store={store}><App /></Provider>);
   });
 
   it("renders the main heading", () => {

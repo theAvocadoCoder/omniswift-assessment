@@ -1,13 +1,28 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import filterReducer from "@features/filter/filterSlice";
+import { filtersApi } from "@features/filter/filtersApi";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
-const store = configureStore({
-  reducer: {
-    filter: filterReducer,
-  }
-});
+const rootReducer = combineReducers({
+  filter: filterReducer,
+  [filtersApi.reducerPath]: filtersApi.reducer,
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(filtersApi.middleware),
+    preloadedState
+  });
+}
+
+const store = setupStore();
+
+setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore["dispatch"];
 
 export default store;
