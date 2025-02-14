@@ -4,7 +4,7 @@ import Table from "@features/table/Table";
 function App() {
 
   return (
-    <main>
+    <main className="md:p-14 lg:p-20">
       <h1 data-testid="heading1">Student Data Table</h1>
       <Filter />
       <Table />
