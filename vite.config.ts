@@ -19,6 +19,9 @@ export default defineConfig({
       "@app": "/src/app",
       "@features": "/src/features",
       "@tests": "/src/tests",
+      "@assets": "/src/assets",
+      "@utils": "/src/utils",
+      "@mocks": "/src/mocks",
     }
   }
 });
