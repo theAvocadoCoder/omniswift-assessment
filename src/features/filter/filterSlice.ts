@@ -34,7 +34,7 @@ export const { setFilter } = filterSlice.actions;
 
 export const selectActiveFilters = createSelector(
   (state: RootState) => state.filter,
-  (filter: RootState["filter"]) => Object.entries(filter).filter(f => !!f[1])
+  (filter: RootState["filter"]) => (Object.entries(filter) as [keyof FilterState, string][]).filter(f => !!f[1])
 );
 
 export default filterSlice.reducer;
