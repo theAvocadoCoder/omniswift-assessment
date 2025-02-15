@@ -1,16 +1,24 @@
-import { useAppSelector } from "@app/hooks";
+import { useAppDispatch, useAppSelector } from "@app/hooks";
 import Dropdown from "./components/Dropdown";
 import { FilterState, selectActiveFilters } from "./filterSlice";
+import { useGetFilteredDataMutation } from "@features/table/tableApi";
+import { populateTable } from "@features/table/tableSlice";
 
 
 function Filter() {
   const filters: (keyof FilterState)[] = ["age", "state", "level", "gender"];
   const activeFilters = useAppSelector(selectActiveFilters);
+  const dispatch = useAppDispatch();
+  const [getFilteredData, { isLoading }] = useGetFilteredDataMutation();
 
-  // @ts-expect-error: Function will be used after todo is complete
-  // eslint-disable-next-line
-  function filterData() {
-    // TODO: Implement search function to filter data
+  async function filterData() {
+    const filterObject: Partial<FilterState> = {};
+    activeFilters.map(f => {
+      filterObject[f[0]] = f[1];
+    });
+    const response = await getFilteredData(filterObject);
+    if (response.error) console.error(response);
+    else dispatch(populateTable(response.data));
   }
 
   return (
@@ -21,7 +29,9 @@ function Filter() {
         {filters.map(filterType => (
           <Dropdown key={`${filterType}-select-div`} type={filterType} />
         ))}
-        <button className="btn rounded w-[min(100%,19.5rem)] h-[3.0625rem] mt-4 border border-transparent">Search</button>
+        <button disabled={isLoading} onClick={filterData} className="btn rounded w-[min(100%,19.5rem)] h-[3.0625rem] mt-4 border border-transparent">
+          { isLoading ? "Filtering..." : "Search" }
+        </button>
       </div>
 
       <div className="">

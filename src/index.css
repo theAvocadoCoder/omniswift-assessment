@@ -55,6 +55,11 @@
     &:hover {
       background-color: var(--color-green-hover);
     }
+
+    &:disabled {
+      background-color: #c5dfcb;
+      color: #3d4d40
+    }
   }
 }
 

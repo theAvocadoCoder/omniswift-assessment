@@ -3,6 +3,7 @@ import { useGetFilterOptionsQuery } from "../filtersApi";
 import { ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "@app/hooks";
 import { RootState } from "@app/store";
+import { initializeTable } from "@features/table/tableSlice";
 
 export type DropdownProps = {
   type: keyof FilterState
@@ -11,6 +12,7 @@ export type DropdownProps = {
 function Dropdown({type}: DropdownProps) {
   const { data: options, error, isLoading } = useGetFilterOptionsQuery(type);
   const selectedOption = useAppSelector((state: RootState) => state.filter[type]);
+  const defaultTableState = useAppSelector((state: RootState) => state.table.unfiltered);
   const dispatch = useAppDispatch();
 
   function selectFilter(event: ChangeEvent<HTMLSelectElement>) {
@@ -19,6 +21,7 @@ function Dropdown({type}: DropdownProps) {
 
   function clearFilter() {
     dispatch(setFilter({ key: type, value: "" }));
+    dispatch(initializeTable(defaultTableState));
   }
 
   return (
