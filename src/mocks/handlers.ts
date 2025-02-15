@@ -61,4 +61,58 @@ export const handlers = [
       ]
     })
   }),
+  http.get("https://test.omniswift.com.ng/api/viewAllData", () => {
+    return HttpResponse.json({
+      "message": "Successful",
+      "data": {
+        "students": [
+          {
+            "id": 1,
+            "surname": "Doe",
+            "firstname": "Jane",
+            "age": 24,
+            "gender": "female",
+            "level": "400 level",
+            "state": "Abuja",
+          },
+          {
+            "id": 1,
+            "surname": "Doe",
+            "firstname": "John",
+            "age": 19,
+            "gender": "male",
+            "level": "200 level",
+            "state": "Kano",
+          },
+        ]
+      }
+    })
+  }),
+  http.post("https://test.omniswift.com.ng/api/filterData", () => {
+    return HttpResponse.json({
+      "message": "Successful",
+      "data": {
+        "students": [
+          {
+            "id": 1,
+            "surname": "Doe",
+            "firstname": "Jane",
+            "age": 24,
+            "gender": "female",
+            "level": "400 level",
+            "state": "Abuja",
+          },
+          {
+            "id": 1,
+            "surname": "Doe",
+            "firstname": "John",
+            "age": 19,
+            "gender": "male",
+            "level": "200 level",
+            "state": "Kano",
+          },
+        ]
+      }
+    })
+  })
 ]

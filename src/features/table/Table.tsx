@@ -18,11 +18,11 @@ function Table() {
 
   return (
     <section className="">
-      <div className="scrollbar max-h-[30rem] overflow-y-scroll ">
+      <div className="scrollbar max-h-[30rem] overflow-y-scroll pr-3">
         <table 
           className="
             border-collapse w-full capitalize
-            mr-3 text-gray-primary
+            bg-white text-gray-primary
             [&_th,&_td]:p-3 [&_td]:bg-white
             [&_td:first-child,&_td:nth-of-type(4)]:text-center 
             [&_tr:not(:last-of-type)]:border-b [&_tr]:border-[#ECECEC]
