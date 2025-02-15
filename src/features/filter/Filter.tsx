@@ -1,21 +1,16 @@
-import { useAppDispatch, useAppSelector } from "@app/hooks";
+import { useAppSelector } from "@app/hooks";
 import Dropdown from "./components/Dropdown";
-import { FilterState, selectActiveFilters, setFilter } from "./filterSlice";
+import { FilterState, selectActiveFilters } from "./filterSlice";
 
 
 function Filter() {
   const filters: (keyof FilterState)[] = ["age", "state", "level", "gender"];
   const activeFilters = useAppSelector(selectActiveFilters);
-  const dispatch = useAppDispatch();
 
   // @ts-expect-error: Function will be used after todo is complete
   // eslint-disable-next-line
   function filterData() {
     // TODO: Implement search function to filter data
-  }
-
-  function clearFilter(type: keyof FilterState) {
-    dispatch(setFilter({ key: type, value: "" }));
   }
 
   return (
@@ -24,16 +19,7 @@ function Filter() {
 
       <div className="flex gap-3 md:gap-5 lg:gap-10 flex-wrap">
         {filters.map(filterType => (
-          <div key={`${filterType}-select-div`} className="relative w-[min(100%,19.5rem)]">
-            <Dropdown key={filterType} type={filterType} />
-            <button 
-              onClick={() => clearFilter(filterType)}
-              aria-label={`clear ${filterType} filter`} 
-              className={`${activeFilters.map(f=>f[0]).includes(filterType) ? '': 'hidden'} absolute -right-2 top-2 w-6 h-6 bg-red-600 text-white cursor-pointer flex justify-center items-center rounded-full`}
-            >
-              <span className="[line-height:1] align-middle font-bold text-2xl">&times;</span>
-            </button>
-          </div>
+          <Dropdown key={`${filterType}-select-div`} type={filterType} />
         ))}
         <button className="btn rounded w-[min(100%,19.5rem)] h-[3.0625rem] mt-4 border border-transparent">Search</button>
       </div>
