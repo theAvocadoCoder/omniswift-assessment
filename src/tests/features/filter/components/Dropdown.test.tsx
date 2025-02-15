@@ -1,11 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import Dropdown from "@features/filter/components/Dropdown";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { renderWithProviders } from "@utils/test-utils";
+import userEvent from "@testing-library/user-event";
 
 describe("Dropdown component", () => {
-  it("renders a select element with the right label and values", async () => {
+
+  beforeEach(() => {
     renderWithProviders(<Dropdown type="gender" />);
+  })
+
+  it("renders a select element with the right label and values", async () => {
 
     expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(screen.getByText(/gender/i)).toBeInTheDocument();
@@ -13,6 +18,30 @@ describe("Dropdown component", () => {
 
     fireEvent.click(screen.getByRole("combobox"));
     expect(await screen.findByText(/female/i)).toBeInTheDocument();
+  });
+
+  it("clears the filter", async () => {
+    await screen.findByText(/female/i);
+    
+    expect((screen.getByTestId("genderDropdown") as HTMLSelectElement).value)
+    .toBe("");
+
+    userEvent.selectOptions(
+      screen.getByTestId("genderDropdown"),
+      "female"
+    );
+
+    await waitFor(() => {
+      expect((screen.getByTestId("genderDropdown") as HTMLSelectElement).value)
+      .toBe("female");
+    });
+    
+    fireEvent.click(
+      screen.getByTestId("genderClearFilter")
+    );
+    
+    expect((screen.getByTestId("genderDropdown") as HTMLSelectElement).value)
+    .toBe("");
   })
 
 })

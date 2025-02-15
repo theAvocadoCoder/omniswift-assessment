@@ -48,8 +48,9 @@ function Dropdown({type}: DropdownProps) {
       </select>
       <button 
         onClick={clearFilter}
+        data-testid={`${type}ClearFilter`}
         aria-label={`clear ${type} filter`} 
-        className={`${selectedOption ? '': 'hidden'} absolute -right-2 top-2 w-6 h-6 bg-red-600 text-white cursor-pointer flex justify-center items-center rounded-full`}
+        className={`absolute -right-2 top-2 w-6 h-6 bg-red-600 text-white cursor-pointer justify-center items-center rounded-full ${selectedOption ? 'flex': 'hidden'}`}
       >
         <span className="[line-height:1] align-middle font-bold text-2xl">&times;</span>
       </button>
