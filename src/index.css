@@ -44,8 +44,9 @@
   .btn {
     background-color: var(--color-green);
     color: #FFFFFF;
-    padding: .75rem 1rem;
+    padding: .5rem 1rem;
     cursor: pointer;
+    font-weight: 700;
     
     &.rounded {
       border-radius: .25rem;
@@ -69,6 +70,6 @@
   &::-webkit-scrollbar-thumb {
     background: var(--color-green);
     border-radius: 1rem;
-    border: .4375rem solid #F8F8F8;
+    border: .475rem solid #F8F8F8;
   }
 }
