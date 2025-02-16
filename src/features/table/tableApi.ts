@@ -21,7 +21,7 @@ export const tableApi = createApi({
         method: "POST",
         body: filter,
       }),
-      transformResponse: (response: unknown & {data: {students: TableItem[]}}) => response.data.students,
+      transformResponse: (response: unknown & {data: {students: TableItem[]}}) => response.data?.students ?? [],
     }),
   }),
 });

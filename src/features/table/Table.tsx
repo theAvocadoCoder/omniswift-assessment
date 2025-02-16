@@ -48,7 +48,7 @@ function Table() {
               ) : isLoading ? (
                 <tr className=""><td colSpan={8}>Loading data...</td></tr>
               ) 
-              : studentData ? studentData.map(
+              : studentData && studentData.length ? studentData.map(
                 row => (
                   <tr key={`${row.id}-${row.surname}-${row.firstname}`}>
                     <td>{row.id}</td>
@@ -61,6 +61,8 @@ function Table() {
                     <td><button className="btn">Download Result</button></td>
                   </tr>
                 )
+              ) : studentData ? (
+                <tr><td colSpan={8}>No student found</td></tr>
               ) : null
             }
           </tbody>
