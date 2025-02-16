@@ -3,6 +3,7 @@ import { useGetStudentDataQuery } from "./tableApi"
 import { useSelector } from "react-redux";
 import { initializeTable, selectStudentData } from "./tableSlice";
 import { useEffect } from "react";
+import Result from "@features/result/Result";
 
 
 function Table() {
@@ -58,7 +59,7 @@ function Table() {
                     <td>{row.gender}</td>
                     <td>{row.level}</td>
                     <td>{row.state} {row.state != "Abuja" ? "State" : ""}</td>
-                    <td><button className="btn">Download Result</button></td>
+                    <td><Result /></td>
                   </tr>
                 )
               ) : studentData ? (
