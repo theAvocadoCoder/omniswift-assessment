@@ -59,7 +59,7 @@ function Table() {
                     <td>{row.gender}</td>
                     <td>{row.level}</td>
                     <td>{row.state} {row.state != "Abuja" ? "State" : ""}</td>
-                    <td><Result /></td>
+                    <td><Result id={row.id} /></td>
                   </tr>
                 )
               ) : studentData ? (
