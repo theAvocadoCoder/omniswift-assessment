@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useGetResultMutation } from "./resultApi";
 import { useAppDispatch, useAppSelector } from "@app/hooks";
 import { createSelectResultById, ResultMeta, setCurrentResult } from "./resultSlice";
 import Passport from "@assets/Passport.png";
 import Logo from "@assets/Logo.png";
+import { toPng } from "html-to-image";
 
 const studentMeta: [(result: ResultMeta) => string, string][] = [
   [result => `${result.surname} ${result.firstname}`, "Name"],
@@ -18,6 +19,7 @@ export interface ResultProps {
 
 function Result({ id }: ResultProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
   const result = useAppSelector(createSelectResultById(id));
   const dispatch = useAppDispatch();
   const [ getResult, { error, isLoading } ] = useGetResultMutation();
@@ -42,6 +44,22 @@ function Result({ id }: ResultProps) {
   }
 
   // TODO: Implement the functionality to turn the template into a pdf and download
+  const downloadResult = useCallback(() => {
+    if (resultRef.current === null) {
+      return
+    }
+
+    toPng(resultRef.current, { cacheBust: true, })
+      .then((dataUrl: string) => {
+        const link = document.createElement('a');
+        link.download = `${result?.session.replace(" ", "_")} Results`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [resultRef, result])
 
   return (
     <>
@@ -49,7 +67,7 @@ function Result({ id }: ResultProps) {
       <dialog ref={dialogRef} className="">
         <button className="absolute left-0 top-0 w-7 h-7 flex justify-center items-center text-2xl/[1] font-bold rounded-full bg-gray-100/30 z-10" aria-label="Close dialog" onClick={closeDialog}>&times;</button>
 
-        <div className="bg-white w-[595px] h-[842px] aspect-[595/842] px-4 py-5 flex flex-col gap-7 items-center justify-start text-[calc(16/842*100)%] relative">
+        <div ref={resultRef} className="bg-white w-[595px] h-[842px] aspect-[595/842] px-4 py-5 flex flex-col gap-7 items-center justify-start text-[calc(16/842*100)%] relative">
           {
             error ? (
               <p className="">Error</p>
@@ -125,7 +143,7 @@ function Result({ id }: ResultProps) {
               </table>
               <p className={`[&_span:first-child]:font-bold ${Object.values(result.cummulative).slice(-1)[0].match(/fail/i) ? "[&_span:last-child]:text-red-500" : "[&_span:last-child]:text-blue"} capitalize self-start text-[.75em]`}>
               {
-                Object.entries(result.cummulative).slice(-1)[0].map((word, index) => (<span>{word}{!index ? ": " : ""}</span>))
+                Object.entries(result.cummulative).slice(-1)[0].map((word, index) => (<span key={word}>{word}{!index ? ": " : ""}</span>))
               }
               </p>
               <p className="border-t border-t-gray-light pt-2.5 w-1/4 text-[.75em] self-start absolute bottom-5">Registrar</p>
@@ -134,7 +152,7 @@ function Result({ id }: ResultProps) {
           }
         </div>
 
-        <button className="btn rounded self-center fixed bottom-5" autoFocus>Download</button>
+        <button onClick={downloadResult} className="btn rounded self-center fixed bottom-5" autoFocus>Download</button>
       </dialog>
     </>
   )
